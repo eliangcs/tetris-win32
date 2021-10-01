@@ -107,17 +107,18 @@ bool Level::rotate()
 
 bool Level::move(int cxDistance, int cyDistance)
 {
-    if (posX + cxDistance < 0 || posY + cyDistance < 0 ||
-        posX + current->getWidth() + cxDistance > width)
-        return false;
-    if (cxDistance < 0 && isHitLeft())
-        return false;
-    if (cxDistance > 0 && isHitRight())
-        return false;
-    if (cyDistance < 0 && isHitBottom())
+    int newX = posX + cxDistance;
+    int newY = posY + cyDistance;
+    if (newX < 0 || newY < 0 ||
+        newX + current->getWidth() > width)
         return false;
     clear(*current);
-    return place(posX + cxDistance, posY + cyDistance, *current);
+    if (!isCovered(*current, newX, newY)) {
+        place(newX, newY, *current);
+        return true;
+    }
+    place(posX, posY, *current);
+    return false;
 }
 
 void Level::clear(const Piece &piece)
@@ -139,55 +140,6 @@ void Level::dropRandomPiece()
     current = next;
     next = pieceSet.getRandomPiece();
     place(3, height - 1, *current);
-}
-
-bool Level::isHitBottom() const
-{
-    POINT apt[4];
-    int n = current->getSkirt(apt);
-    int x, y;
-    for (int i = 0; i < n; i++)
-    {
-        x = posX + apt[i].x;
-        y = posY + apt[i].y;
-        if (y < height && (y == 0 || board[x][y-1] != RGB(0,0,0)))
-            return true;
-    }
-    return false;
-}
-
-bool Level::isHitLeft() const
-{
-    POINT apt[4];
-    int n = current->getLeftSide(apt);
-    int x, y;
-    for (int i = 0; i < n; i++)
-    {
-        x = posX + apt[i].x;
-        y = posY + apt[i].y;
-        if (y > height - 1)
-            continue;
-        if (x == 0 || board[x-1][y] != RGB(0,0,0))
-            return true;
-    }
-    return false;
-}
-
-bool Level::isHitRight() const
-{
-    POINT apt[4];
-    int n = current->getRightSide(apt);
-    int x, y;
-    for (int i = 0; i < n; i++)
-    {
-        x = posX + apt[i].x;
-        y = posY + apt[i].y;
-        if (y > height - 1)
-            continue;
-        if (x == width - 1 || board[x+1][y] != RGB(0,0,0))
-            return true;
-    }
-    return false;
 }
 
 bool Level::isCovered(const Piece &piece, int x, int y) const

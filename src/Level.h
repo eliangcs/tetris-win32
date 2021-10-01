@@ -52,11 +52,6 @@ protected:
     // Releases the next dropping piece
     void dropRandomPiece();
 
-    // Checks if the piece hits the boundary
-    bool isHitBottom() const;
-    bool isHitLeft() const;
-    bool isHitRight() const;
-
     // Checks if a piece can move to a position
     bool isCovered(const Piece &piece, int x, int y) const;
 

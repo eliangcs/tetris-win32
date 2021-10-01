@@ -43,11 +43,6 @@ public:
     // Gets the points of the piece
     void getBody(POINT *apt) const;
 
-    // Gets the bottom, left, or right part of points of the piece
-    int getSkirt(POINT *apt) const;
-    int getLeftSide(POINT *apt) const;
-    int getRightSide(POINT *apt) const;
-
     // Determines if the piece has a point (x, y)
     bool isPointExists(int x, int y) const;
 
