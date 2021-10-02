@@ -40,63 +40,6 @@ void Piece::getBody(POINT *apt) const
         apt[i] = body[i];
 }
 
-int Piece::getSkirt(POINT *apt) const
-{
-    int i = 0;
-    for (int x = 0; x < width; x++)
-    {
-        for (int y = 0; y < height; y++)
-        {
-            if (isPointExists(x, y))
-            {
-                apt[i].x = x;
-                apt[i].y = y;
-                i++;
-                break;
-            }
-        }
-    }
-    return i;
-}
-
-int Piece::getLeftSide(POINT *apt) const
-{
-    int i = 0;
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = 0; x < height; x++)
-        {
-            if (isPointExists(x, y))
-            {
-                apt[i].x = x;
-                apt[i].y = y;
-                i++;
-                break;
-            }
-        }
-    }
-    return i;
-}
-
-int Piece::getRightSide(POINT *apt) const
-{
-    int i = 0;
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = width - 1; x >= 0; x--)
-        {
-            if (isPointExists(x, y))
-            {
-                apt[i].x = x;
-                apt[i].y = y;
-                i++;
-                break;
-            }
-        }
-    }
-    return i;
-}
-
 void Piece::print() const
 {
     cout << "width = " << width << endl;
